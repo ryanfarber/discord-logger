@@ -6,7 +6,7 @@ function DiscordLogger(hookName, hookUrl) {
 	var url = parseUrl(hookUrl);
 	const hook = new Discord.WebhookClient(url.webhookId, url.webhookToken);
 	var config = {
-		username: hookName || "logger";
+		username: hookName || "logger"
 	};
 
 	this.log = (message) => hook.send(":page_with_curl: " + message, config);

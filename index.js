@@ -19,14 +19,14 @@ function DiscordLogger(hookName, hookUrl) {
 		hook.send(":information_source: " + message, config)
 	}
 
-	this.error = function(message) {
-		// let hook = new Hook(hookName, hookUrl)
-		hook.send(":bangbang: " + message, config)
-	}
-
 	this.warn = function(message) {
 		// let hook = new Hook(hookName, hookUrl)
 		hook.send(":warning: " + message, config)
+	}
+
+	this.error = function(message) {
+		// let hook = new Hook(hookName, hookUrl)
+		hook.send(":bangbang: " + message, config)
 	}
 
 }

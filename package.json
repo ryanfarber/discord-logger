@@ -1,6 +1,6 @@
 {
   "name": "rf-discord-logger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "a utility to send logs to a discord channel using webhooks",
   "main": "index.js",
   "scripts": {

@@ -1,6 +1,6 @@
 // index.js
 
-const Discord = require("discord.js");
+const Discord = require("discord.js"); 
 
 function DiscordLogger(hookName, hookUrl) {
 	var url = parseUrl(hookUrl);

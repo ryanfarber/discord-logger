@@ -3,33 +3,18 @@
 const Discord = require("discord.js");
 
 function DiscordLogger(hookName, hookUrl) {
-	var url = parseUrl(hookUrl)
+	var url = parseUrl(hookUrl);
 	const hook = new Discord.WebhookClient(url.webhookId, url.webhookToken);
 	var config = {
-		username: hookName || "logger"
-	}
+		username: hookName || "logger";
+	};
 
-	this.log = function(message) {
-		// let hook = new Hook(hookName, hookUrl)
-		hook.send(":page_with_curl: " + message, config)
-	}
+	this.log = (message) => hook.send(":page_with_curl: " + message, config);
+	this.info = (message) => hook.send(":information_source: " + message, config);
+	this.warn = (message) => hook.send(":warning: " + message, config);
+	this.error = (message) => hook.send(":bangbang: " + message, config);
 
-	this.info = function(message) {
-		// let hook = new Hook(hookName, hookUrl)
-		hook.send(":information_source: " + message, config)
-	}
-
-	this.warn = function(message) {
-		// let hook = new Hook(hookName, hookUrl)
-		hook.send(":warning: " + message, config)
-	}
-
-	this.error = function(message) {
-		// let hook = new Hook(hookName, hookUrl)
-		hook.send(":bangbang: " + message, config)
-	}
-
-}
+};
 
 function parseUrl(url, debug) {
 	// parses the id and token from a url string
@@ -37,18 +22,18 @@ function parseUrl(url, debug) {
 	var webhookId;
 	var webhookToken;
 
-	if (!url) throw "no url provided"
+	if (!url) throw "no url provided";
 
 	if (!url.startsWith('https://discord.com/api/webhooks/')) {
-		if (debug) logger.debug(url)
+		if (debug) logger.debug(url);
 		throw new Error('check if this is a discord webhook URL');
 	} else {
 		if (url.match(/(?!webhooks\/)\d.+?(?=\/)/g)) {
-			if (debug)logger.debug(webhookId)
+			if (debug)logger.debug(webhookId);
 				webhookId = url.match(/(?!webhooks\/)\d.+?(?=\/)/g)[0];
 		};
 		if (url.match(/(?<=\d\/).+?$/g)) {
-			if (debug)logger.debug(webhookToken)
+			if (debug)logger.debug(webhookToken);
 				webhookToken = url.match(/(?<=\d\/).+?$/g)[0];
 		}; 
 	};

@@ -1,6 +1,6 @@
 # rf-discord-logger
 
-![image](https://www.uncommongoods.com/images/items/49100/49180_3_640px.jpg)
+![image](https://cdn.glitch.com/dc4b1449-e9df-4aaa-a6ef-c17b2496dea6%2F49180_3_640px.jpg?v=1604715451701)
 
 a utility to send logs to a discord channel using webhooks
 

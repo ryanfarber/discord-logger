@@ -2,17 +2,41 @@
 
 const Discord = require("discord.js"); 
 
-function DiscordLogger(hookName, hookUrl) {
+function DiscordLogger(hookName, hookUrl, icons) {
 	var url = parseUrl(hookUrl);
 	const hook = new Discord.WebhookClient(url.webhookId, url.webhookToken);
 	var config = {
 		username: hookName || "logger"
 	};
 
-	this.log = (message) => hook.send(":page_with_curl: " + message, config);
-	this.info = (message) => hook.send(":information_source: " + message, config);
-	this.warn = (message) => hook.send(":warning: " + message, config);
-	this.error = (message) => hook.send(":bangbang: " + message, config);
+	let prefixMap = new Map([
+		["log", {text: "[LOG] ", icon: ":page_with_curl: "}],
+		["info", {text: "[INFO] ", icon: ":information_source: "}],
+		["warn", {text: "[WARN] ", icon: ":warning: "}],
+		["error", {text: "[ERROR] ", icon: ":bangbang: "}],
+		["debug", {text: "[DEBUG] ", icon: ":bug: "}]
+	]);
+
+	this.log = (message) => {
+		let prefix = (icons) ? prefixMap.get("log").icon : prefixMap.get("log").text;
+		hook.send(prefix + message, config);
+	};
+	this.info = (message) => {
+		let prefix = (icons) ? prefixMap.get("info").icon : prefixMap.get("info").text;
+		hook.send(prefix + message, config);
+	};
+	this.warn = (message) => {
+		let prefix = (icons) ? prefixMap.get("warn").icon : prefixMap.get("warn").text;
+		hook.send(prefix + message, config);
+	};
+	this.error = (message) => {
+		let prefix = (icons) ? prefixMap.get("error").icon : prefixMap.get("error").text;
+		hook.send(prefix + message, config);
+	};
+	this.debug = (message) => {
+		let prefix = (icons) ? prefixMap.get("debug").icon : prefixMap.get("debug").text;
+		hook.send(prefix + message, config);
+	};
 
 };
 

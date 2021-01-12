@@ -2,11 +2,17 @@
 
 const Discord = require("discord.js"); 
 
-function DiscordLogger(hookName, hookUrl, icons) {
-	var url = parseUrl(hookUrl);
-	const hook = new Discord.WebhookClient(url.webhookId, url.webhookToken);
+function DiscordLogger(settings = {}) {
+	if (!settings.url) return console.error("please enter a webhook url for this logger")
+	let hookName = settings.name || "logger"
+	let url = parseUrl(settings.url);
+	let avatar = settings.avatar || ""
+	let icons = settings.icons || false
+
+	let client = new Discord.WebhookClient(url.webhookId, url.webhookToken);
 	var config = {
-		username: hookName || "logger"
+		username: hookName,
+		avatarURL: avatar
 	};
 
 	let prefixMap = new Map([
@@ -19,23 +25,23 @@ function DiscordLogger(hookName, hookUrl, icons) {
 
 	this.log = (message) => {
 		let prefix = (icons) ? prefixMap.get("log").icon : prefixMap.get("log").text;
-		hook.send(prefix + message, config);
+		client.send(prefix + message, config);
 	};
 	this.info = (message) => {
 		let prefix = (icons) ? prefixMap.get("info").icon : prefixMap.get("info").text;
-		hook.send(prefix + message, config);
+		client.send(prefix + message, config);
 	};
 	this.warn = (message) => {
 		let prefix = (icons) ? prefixMap.get("warn").icon : prefixMap.get("warn").text;
-		hook.send(prefix + message, config);
+		client.send(prefix + message, config);
 	};
 	this.error = (message) => {
 		let prefix = (icons) ? prefixMap.get("error").icon : prefixMap.get("error").text;
-		hook.send(prefix + message, config);
+		client.send(prefix + message, config);
 	};
 	this.debug = (message) => {
 		let prefix = (icons) ? prefixMap.get("debug").icon : prefixMap.get("debug").text;
-		hook.send(prefix + message, config);
+		client.send(prefix + message, config);
 	};
 
 };
@@ -49,7 +55,7 @@ function parseUrl(url, debug) {
 	if (!url) throw "no url provided";
 
 	if (!url.startsWith('https://discord.com/api/webhooks/')) {
-		if (debug) logger.debug(url);
+		if (debug) console.debug(url);
 		throw new Error('check if this is a discord webhook URL');
 	} else {
 		if (url.match(/(?!webhooks\/)\d.+?(?=\/)/g)) {

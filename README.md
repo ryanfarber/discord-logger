@@ -10,13 +10,18 @@ think of this as a normal console logger, but sends the logs to a discord channe
 
 ```javascript
 
-const Logger = require("rf-discord-logger")
-const logger = new Logger("logger name", "hook url")
+const DiscordLogger = require("rf-discord-logger")
+const logger = new DiscordLogger({
+	name: "discordLogger", // name your logger, defaults to "logger"
+	url: process.env.URL, // webhook url
+	icons: false // show icons instead of [LOG], [WARN], etc.
+})
+
 
 logger.log("this is a log")
+// [LOG] this is a log
 logger.info("this is info")
 logger.warn("this is a warning")
 logger.error("this is an error")
-
 
 ```

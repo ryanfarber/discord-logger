@@ -9,4 +9,4 @@ const logger = new Logger({
 	icons: false
 })
 
-logger.debug("suous", {name: "NEW NAME"})
+logger.log("suous", {name: "NEW NAME"})

@@ -20,8 +20,23 @@ const logger = new DiscordLogger({
 
 logger.log("this is a log")
 // [LOG] this is a log
+logger.log("this is a log", {name: "newLoggerName"}) // changes the username of the bot on the fly
 logger.info("this is info")
 logger.warn("this is a warning")
 logger.error("this is an error")
+logger.debug("this is a debug")
 
 ```
+
+
+## methods
+
+`.log(message, opts)`
+
+`.info(message, opts)`
+
+`.warn(message, opts)`
+
+`.error(message, opts)`
+
+`.debug(message, opts)`

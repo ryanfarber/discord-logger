@@ -23,24 +23,29 @@ function DiscordLogger(settings = {}) {
 		["debug", {text: "[DEBUG] ", icon: ":bug: "}]
 	]);
 
-	this.log = (message) => {
+	this.log = (message, opts = {}) => {
 		let prefix = (icons) ? prefixMap.get("log").icon : prefixMap.get("log").text;
+		if (opts.name) config.username = opts.name;
 		client.send(prefix + message, config);
 	};
-	this.info = (message) => {
+	this.info = (message, opts = {}) => {
 		let prefix = (icons) ? prefixMap.get("info").icon : prefixMap.get("info").text;
+		if (opts.name) config.username = opts.name;
 		client.send(prefix + message, config);
 	};
-	this.warn = (message) => {
+	this.warn = (message, opts = {}) => {
 		let prefix = (icons) ? prefixMap.get("warn").icon : prefixMap.get("warn").text;
+		if (opts.name) config.username = opts.name;
 		client.send(prefix + message, config);
 	};
-	this.error = (message) => {
+	this.error = (message, opts = {}) => {
 		let prefix = (icons) ? prefixMap.get("error").icon : prefixMap.get("error").text;
+		if (opts.name) config.username = opts.name;
 		client.send(prefix + message, config);
 	};
-	this.debug = (message) => {
+	this.debug = (message, opts = {}) => {
 		let prefix = (icons) ? prefixMap.get("debug").icon : prefixMap.get("debug").text;
+		if (opts.name) config.username = opts.name;
 		client.send(prefix + message, config);
 	};
 

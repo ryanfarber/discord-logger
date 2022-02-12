@@ -1,4 +1,4 @@
-# rf-discord-logger
+# discord-logger
 
 ![image](https://cdn.glitch.com/dc4b1449-e9df-4aaa-a6ef-c17b2496dea6%2F49180_3_640px.jpg?v=1604715451701)
 

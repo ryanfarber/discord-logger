@@ -9,4 +9,4 @@ const logger = new Logger({
 	icons: false
 })
 
-logger.log("suous", {name: "NEW NAME"})
+logger.log("discord-logger", {name: "test-logger"})

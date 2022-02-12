@@ -3,7 +3,7 @@
 const Discord = require("discord.js"); 
 
 function DiscordLogger(settings = {}) {
-	if (!settings.url) return console.error("please enter a webhook url for this logger")
+	if (!settings.url) error("NO_WEBHOOK_URL")
 	let hookName = settings.name || "logger"
 	let url = parseUrl(settings.url);
 	let avatar = settings.avatar || ""
@@ -49,7 +49,7 @@ function DiscordLogger(settings = {}) {
 		client.send(prefix + message, config);
 	};
 
-};
+}; // end
 
 function parseUrl(url, debug) {
 	// parses the id and token from a url string
@@ -57,11 +57,11 @@ function parseUrl(url, debug) {
 	var webhookId;
 	var webhookToken;
 
-	if (!url) throw "no url provided";
+	if (!url) error("NO_URL");
 
 	if (!url.startsWith('https://discord.com/api/webhooks/')) {
 		if (debug) console.debug(url);
-		throw new Error('check if this is a discord webhook URL');
+		throw  error("INVALID_URL");
 	} else {
 		if (url.match(/(?!webhooks\/)\d.+?(?=\/)/g)) {
 			if (debug)logger.debug(webhookId);
@@ -72,11 +72,31 @@ function parseUrl(url, debug) {
 				webhookToken = url.match(/(?<=\d\/).+?$/g)[0];
 		}; 
 	};
-
 	return {
 		webhookId,
 		webhookToken
 	}
-}
+}; // end
+
+
+// error handler
+function error(type) {
+
+	let error;
+	let errors = new Map([
+		["NO_WEBHOOK_URL", "please enter a valid webhook url"],
+		["NO_URL", "no webhook url was provided"],
+		["INVALID_URL", "check if this is a discord webhook URL"]
+	]);
+
+	if (errors.has(type)) error = new Error(errors.get(type));
+	else error = new Error("something went wrong");
+
+	error.module = "discordLogger";
+	error.code = type;
+
+	throw error;
+	
+}; // end
 
 module.exports = DiscordLogger

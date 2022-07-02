@@ -28,6 +28,8 @@ logger.name = "boosted"
 logger.log("this log will have a new name")
 // [log] this log will have a new name
 
+//                ~ or ~
+
 // change name via opts parameter
 logger.log("change name via config", {name: "zoinks"})
 // [log] change name via config

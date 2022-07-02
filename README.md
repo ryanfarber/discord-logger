@@ -2,7 +2,16 @@
 
 ![image](https://cdn.glitch.com/dc4b1449-e9df-4aaa-a6ef-c17b2496dea6%2F49180_3_640px.jpg?v=1604715451701)
 
-log to a discord channel. uses dicord webhooks
+log to a discord channel. uses discord webhooks
+
+### getting your webhook URL
+1) find the channel you want to log to
+2) click the `Edit Channel` button
+3) click `Integrations` in the side panel
+4) click `View Webhooks`
+5) if you don't already have a webhook dedicated for this logger, click `New Webhook`
+6) click the `Copy Webhook URL` button
+7) done! use this URL when in the instance config
 
 ### usage
 ```javascript

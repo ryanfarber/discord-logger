@@ -1,6 +1,6 @@
 {
   "name": "@ryanforever/discord-logger",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "description": "a utility to send logs to a discord channel using webhooks",
   "main": "index.js",
   "scripts": {
@@ -9,10 +9,11 @@
   "author": "ryan forever",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^12.4.1"
+    "discord.js": "^13.8.1",
+    "discord.js-v12": "npm:discord.js@^12.5.3"
   },
   "devDependencies": {
-    "dotenv": "^8.2.0"
+    "dotenv": "^16.0.1"
   },
   "repository": {
     "type": "git",

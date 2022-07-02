@@ -1,102 +1,149 @@
 // src.js
 
-const Discord = require("discord.js"); 
+const Discord = require("discord.js")
 
 function DiscordLogger(settings = {}) {
 	if (!settings.url) error("NO_WEBHOOK_URL")
-	let hookName = settings.name || "logger"
-	let url = parseUrl(settings.url);
-	let avatar = settings.avatar || ""
-	let icons = settings.icons || false
+	this.name = settings.name || "logger"
+	this.avatar = settings.avatar || undefined
 
-	let client = new Discord.WebhookClient(url.webhookId, url.webhookToken);
-	var config = {
-		username: hookName,
-		avatarURL: avatar
-	};
+	let url = parseUrl(settings.url)
+	let style = settings.style || "default"
 
+	let client = new Discord.WebhookClient({
+		id: url.webhookId, 
+		token: url.webhookToken
+	})
+	
 	let prefixMap = new Map([
-		["log", {text: "[LOG] ", icon: ":page_with_curl: "}],
-		["info", {text: "[INFO] ", icon: ":information_source: "}],
-		["warn", {text: "[WARN] ", icon: ":warning: "}],
-		["error", {text: "[ERROR] ", icon: ":bangbang: "}],
-		["debug", {text: "[DEBUG] ", icon: ":bug: "}]
-	]);
+		["log", {text: "`[LOG]` ", icon: ":page_with_curl: "}],
+		["info", {text: "`[INFO` ", icon: ":information_source: "}],
+		["warn", {text: "`[WARN` ", icon: ":warning: "}],
+		["error", {text: "`[ERROR` ", icon: ":bangbang: "}],
+		["debug", {text: "`[DEBUG]` ", icon: ":bug: "}]
+	])
 
-	this.log = (message, opts = {}) => {
-		let prefix = (icons) ? prefixMap.get("log").icon : prefixMap.get("log").text;
-		if (opts.name) config.username = opts.name;
-		client.send(prefix + message, config);
-	};
-	this.info = (message, opts = {}) => {
-		let prefix = (icons) ? prefixMap.get("info").icon : prefixMap.get("info").text;
-		if (opts.name) config.username = opts.name;
-		client.send(prefix + message, config);
-	};
-	this.warn = (message, opts = {}) => {
-		let prefix = (icons) ? prefixMap.get("warn").icon : prefixMap.get("warn").text;
-		if (opts.name) config.username = opts.name;
-		client.send(prefix + message, config);
-	};
-	this.error = (message, opts = {}) => {
-		let prefix = (icons) ? prefixMap.get("error").icon : prefixMap.get("error").text;
-		if (opts.name) config.username = opts.name;
-		client.send(prefix + message, config);
-	};
-	this.debug = (message, opts = {}) => {
-		let prefix = (icons) ? prefixMap.get("debug").icon : prefixMap.get("debug").text;
-		if (opts.name) config.username = opts.name;
-		client.send(prefix + message, config);
-	};
+	//! LOG //
+	this.log = async (message, opts = {}) => {
+		this.type = "log"
+		this.message = message
+		if (opts.name) this.name = opts.username
+		let config = {username: this.name, avatarURL: this.avatar}
+		return await client.send(format(), config)
+	}
 
-}; // end
+	//! INFO //
+	this.info = async (message, opts = {}) => {
+		this.type = "info"
+		this.message = message
+		if (opts.name) this.name = opts.name
+		let config = {username: this.name, avatarURL: this.avatar}
+		return await client.send(format(), config)
+	}
 
+	//! WARN //
+	this.warn = async (message, opts = {}) => {
+		this.type = "warn"
+		this.message = message
+		if (opts.name) this.name = opts.name
+		let config = {username: this.name, avatarURL: this.avatar}
+		return await client.send(format(), config)
+	}
+
+	//! ERROR //
+	this.error = async (message, opts = {}) => {
+		this.type = "error"
+		this.message = message
+		if (opts.name) this.name = opts.name
+		let config = {username: this.name, avatarURL: this.avatar}
+		return await client.send(format(), config)
+	}
+
+	//! DEBUG //
+	this.debug = async (message, opts = {}) => {
+		this.type = "debug"
+		this.message = message
+		if (opts.name) this.name = opts.name
+		let config = {username: this.name, avatarURL: this.avatar}
+		return await client.send(format(), config)
+	}
+
+	//! DELETE // delete a log
+	this.delete = async function(message) {
+		return await client.deleteMessage(message)
+	}
+
+	//! EDIT // edits a message
+	this.edit = async function(message, string) {
+		let match = message?.content?.match(/\[log\]|\[info\]|\[warn\]|\[error\]|\[debug\]/)
+		if (match) match = match[0]
+		else match == "log"
+		match = match.replace(/\[|\]/gi, "")
+		this.type = match
+		this.message = string
+		let newContent = format()
+		return await client.editMessage(message, {content: newContent})
+	}
+
+	let format = () => {
+		let p = ""
+		// let n = ""
+		p = this.type
+		let output
+		if (style == "default") output = `\`[${p}]\` \`${this.message}\``
+		else if (style == "console") output = `\`\`\`txt\n[${p}] ${this.message}\`\`\``
+		else if (style == "text") output = `[${p}] ${this.message}`
+		return output
+	}
+}
+
+
+// PARSE URL // parses the id and token from a url string
 function parseUrl(url, debug) {
-	// parses the id and token from a url string
 
-	var webhookId;
-	var webhookToken;
+	let webhookId
+	let webhookToken
 
-	if (!url) error("NO_URL");
+	if (!url) error("NO_URL")
 
 	if (!url.startsWith('https://discord.com/api/webhooks/')) {
-		if (debug) console.debug(url);
-		throw  error("INVALID_URL");
+		if (debug) console.debug(url)
+		throw  error("INVALID_URL")
 	} else {
 		if (url.match(/(?!webhooks\/)\d.+?(?=\/)/g)) {
-			if (debug)logger.debug(webhookId);
-				webhookId = url.match(/(?!webhooks\/)\d.+?(?=\/)/g)[0];
-		};
+			if (debug)logger.debug(webhookId)
+				webhookId = url.match(/(?!webhooks\/)\d.+?(?=\/)/g)[0]
+		}
 		if (url.match(/(?<=\d\/).+?$/g)) {
-			if (debug)logger.debug(webhookToken);
-				webhookToken = url.match(/(?<=\d\/).+?$/g)[0];
-		}; 
-	};
+			if (debug)logger.debug(webhookToken)
+				webhookToken = url.match(/(?<=\d\/).+?$/g)[0]
+		}
+	}
 	return {
 		webhookId,
 		webhookToken
 	}
-}; // end
+}
 
 
-// error handler
+// ERROR HANDLER //
 function error(type) {
 
-	let error;
+	let error
 	let errors = new Map([
 		["NO_WEBHOOK_URL", "please enter a valid webhook url"],
 		["NO_URL", "no webhook url was provided"],
 		["INVALID_URL", "check if this is a discord webhook URL"]
-	]);
+	])
 
-	if (errors.has(type)) error = new Error(errors.get(type));
-	else error = new Error("something went wrong");
+	if (errors.has(type)) error = new Error(errors.get(type))
+	else error = new Error("something went wrong")
 
-	error.module = "discordLogger";
-	error.code = type;
+	error.module = "discordLogger"
+	error.code = type
 
-	throw error;
+	throw error
 	
-}; // end
+}
 
 module.exports = DiscordLogger

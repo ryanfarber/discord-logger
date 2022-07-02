@@ -5,9 +5,6 @@
 log to a discord channel. uses dicord webhooks
 
 ### usage
-think of this as a normal console logger, but sends the logs to a discord channel, using webhooks.
-
-
 ```javascript
 const DiscordLogger = require("@ryanforever/discord-logger")
 const logger = new DiscordLogger({
@@ -22,18 +19,20 @@ logger.error("this is an error")
 logger.debug("this is a debug")
 ```
 
-### change name on the fly
+### change name of logger on the fly
+handy to quickly change the name 
 ```javascript
-logger.name = "boosted"
 
+// change name via logger.name
+logger.name = "boosted"
 logger.log("this log will have a new name")
 // [log] this log will have a new name
-````
 
-```javascript
+// change name via opts parameter
 logger.log("change name via config", {name: "zoinks"})
 // [log] change name via config
-```
+````
+
 ### change style
 change how the logger appears in discord
 ```javascript

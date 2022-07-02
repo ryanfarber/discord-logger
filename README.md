@@ -15,7 +15,6 @@ const logger = new DiscordLogger({
 	url: process.env.DISCORD_WEBHOOK_URL, // webhook url
 })
 
-
 logger.log("this is a log")
 logger.info("this is info")
 logger.warn("this is a warning")
@@ -36,6 +35,7 @@ logger.log("change name via config", {name: "zoinks"})
 // [log] change name via config
 ```
 ### change style
+change how the logger appears in discord
 ```javascript
 const logger = new DiscordLogger({
 	name: "discordLogger",
@@ -60,12 +60,16 @@ logger.delete(log)
 
 ## methods
 
-`.log(message, opts)`
+`.log(string, opts)`
 
-`.info(message, opts)`
+`.info(string, opts)`
 
-`.warn(message, opts)`
+`.warn(string, opts)`
 
-`.error(message, opts)`
+`.error(string, opts)`
 
-`.debug(message, opts)`
+`.debug(string, opts)`
+
+`.edit(logObject, string)`
+
+`.delete(logObject)`

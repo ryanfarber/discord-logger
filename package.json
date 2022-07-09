@@ -1,6 +1,6 @@
 {
   "name": "@ryanforever/discord-logger",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "a utility to send logs to a discord channel using webhooks",
   "main": "index.js",
   "scripts": {

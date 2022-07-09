@@ -6,7 +6,7 @@ function DiscordLogger(settings = {}) {
 	if (!settings.url) error("NO_WEBHOOK_URL")
 	this.name = settings.name || "logger"
 	this.avatar = settings.avatar || undefined
-
+	// this.name
 	let url = parseUrl(settings.url)
 	let style = settings.style || "default"
 
@@ -28,8 +28,8 @@ function DiscordLogger(settings = {}) {
 		this.type = "log"
 		this.message = message
 		if (opts.name) this.name = opts.username
-		let config = {username: this.name, avatarURL: this.avatar}
-		return await client.send(format(), config)
+		let data = {content: format(), username: this.name, avatarURL: this.avatar}
+		return await client.send(data)
 	}
 
 	//! INFO //
@@ -37,8 +37,8 @@ function DiscordLogger(settings = {}) {
 		this.type = "info"
 		this.message = message
 		if (opts.name) this.name = opts.name
-		let config = {username: this.name, avatarURL: this.avatar}
-		return await client.send(format(), config)
+		let data = {content: format(), username: this.name, avatarURL: this.avatar}
+		return await client.send(data)
 	}
 
 	//! WARN //
@@ -46,8 +46,8 @@ function DiscordLogger(settings = {}) {
 		this.type = "warn"
 		this.message = message
 		if (opts.name) this.name = opts.name
-		let config = {username: this.name, avatarURL: this.avatar}
-		return await client.send(format(), config)
+		let data = {content: format(), username: this.name, avatarURL: this.avatar}
+		return await client.send(data)
 	}
 
 	//! ERROR //
@@ -55,8 +55,8 @@ function DiscordLogger(settings = {}) {
 		this.type = "error"
 		this.message = message
 		if (opts.name) this.name = opts.name
-		let config = {username: this.name, avatarURL: this.avatar}
-		return await client.send(format(), config)
+		let data = {content: format(), username: this.name, avatarURL: this.avatar}
+		return await client.send(data)
 	}
 
 	//! DEBUG //
@@ -64,8 +64,8 @@ function DiscordLogger(settings = {}) {
 		this.type = "debug"
 		this.message = message
 		if (opts.name) this.name = opts.name
-		let config = {username: this.name, avatarURL: this.avatar}
-		return await client.send(format(), config)
+		let data = {content: format(), username: this.name, avatarURL: this.avatar}
+		return await client.send(data)
 	}
 
 	//! DELETE // delete a log

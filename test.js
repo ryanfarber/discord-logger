@@ -4,14 +4,15 @@ require('dotenv').config()
 
 const Logger = require("./index.js")
 const logger = new Logger({
-	name: "booper",
+	name: "test-logger",
 	url: process.env.DISCORD_WEBHOOK_URL
 	// style: "text"
 })
 
 // test()
 // selfDesctruct(2)
-
+// logger.name = "zooper"
+logger.error("test")
 // 
 async function selfDesctruct(time) {
 	console.log("self destructing log message...")
